@@ -1,0 +1,70 @@
+﻿@model FirstLine.CodeChallenge.Models.PalindromeModel
+
+@{
+    ViewData["Title"] = "Palindrome Checker";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Index" method="post" id="palindromeForm">
+            <div class="form-group">
+                <label asp-for="Number" class="control-label">Enter a positive number:</label>
+                <input asp-for="Number" class="form-control"/>
+                <span asp-validation-for="Number" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="Check" class="btn btn-primary" id="checkButton"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model.IsPalindrome.HasValue)
+{
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <div class="alert @(Model.IsPalindrome.Value ? "alert-success" : "alert-info")">
+                <h4>Result:</h4>
+                <p>
+                    @if (Model.IsPalindrome.Value)
+                    {
+                        <span>@Model.Number is a palindrome!</span>
+                    }
+                    else
+                    {
+                        <span>@Model.Number is not a palindrome.</span>
+                    }
+                </p>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row mt-3">
+    <div class="col-md-6">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to Home</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script>
+        $(document).ready(function () {
+            function validateForm() {
+                const form = $("#palindromeForm");
+                $.validator.unobtrusive.parse(form);
+                return form.valid();
+            }
+
+            function updateButtonState() {
+                $("#checkButton").prop("disabled", !validateForm());
+            }
+
+            $("#Number").on("input", updateButtonState);
+            
+            updateButtonState();
+        });
+    </script>
+}

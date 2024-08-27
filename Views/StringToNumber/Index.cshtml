@@ -1,0 +1,60 @@
+﻿@model FirstLine.CodeChallenge.Models.StringToNumberModel
+
+@{
+ViewData["Title"] = "String to Number Converter";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Index" method="post" id="convertForm">
+            <div class="form-group">
+                <label asp-for="Number" class="control-label">Enter a number:</label>
+                <input asp-for="Number" class="form-control" />
+                <span asp-validation-for="Number" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="Convert" class="btn btn-primary" id="convertButton" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model.Result != null)
+{
+<div class="row mt-3">
+    <div class="col-md-6">
+        <div class="alert alert-success">
+            <h4>Result:</h4>
+            <p>@Model.Result</p>
+        </div>
+    </div>
+</div>
+}
+
+<div class="row mt-3">
+    <div class="col-md-6">
+        <a asp-controller="Home" asp-action="Index">Back to Home</a>
+    </div>
+</div>
+
+@section Scripts {
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+    $(document).ready(function () {
+        function validateForm() {
+            var form = $("#convertForm");
+            $.validator.unobtrusive.parse(form);
+            return form.valid();
+        }
+
+        function updateButtonState() {
+            $("#convertButton").prop("disabled", !validateForm());
+        }
+
+        $("#Number").on("input", updateButtonState);
+        updateButtonState();
+    });
+</script>
+}

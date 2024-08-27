@@ -1,0 +1,22 @@
+﻿@model FirstLine.CodeChallenge.Models.ExerciseLinkModel
+
+@{ ViewData["Title"] = Model.Title; }
+
+
+<h1>@Model.Title</h1>
+
+<div>
+    <h4>@Model.Description</h4>
+    <hr/>
+    @* <div class="form-group"> *@
+    @*     <label asp-for="Implementation" class="control-label"></label> *@
+    @*     <textarea asp-for="Implementation" class="form-control" rows="10"></textarea> *@
+    @* </div> *@
+    <div class="form-group mt-3">
+        <input type="submit" value="Save Implementation" class="btn btn-primary"/>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Index">Back to List</a>
+</div>
